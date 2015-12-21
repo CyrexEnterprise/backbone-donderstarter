@@ -57,6 +57,9 @@ define(
 				Application.RootView = new RootView();				
 				Application.RootView.renderNav();
 
+				// Init roles
+				Application.RootView.initRoles();		
+
 				// Router
 				Application.Router = new Router ();
 

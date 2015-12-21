@@ -1,7 +1,7 @@
 
 define(
-	['Views/BaseView'],
-	function (BaseView)
+	['Views/BaseView', 'backbone_auth'],
+	function (BaseView, Roles)
 	{
 		var RootView = BaseView.extend({
 
@@ -29,6 +29,17 @@ define(
 				//var user = Application.Session.User.attributes.user.firstname;
 
 				$('header').html(Mustache.render(Templates.topnav, {logged: true/*, user: user*/}));
+			},
+
+			initRoles: function () {
+
+				var userRoles = Application.Session.User? Application.Session.User.get('roles'): null;
+
+				if (userRoles) {
+
+					var roles = new Roles();
+					roles.set(userRoles)
+				}
 			}
 		});
 

@@ -19,7 +19,7 @@ define(
 					this.loadUserData();
 				}
 				else
-					this.justStart();
+					this.begin();
 
 				return this;
 			},
@@ -44,27 +44,12 @@ define(
 
 				this.Session.loadEssentialData (function ()	{
 					
-					$('body').addClass('loaded').removeClass('loading');
-
-					// Root view
-					Application.RootView = new RootView();				
-					Application.RootView.renderNav();
-
-					var name = Application.Session.User.attributes.user.name,
-						firstname = Application.Session.User.attributes.user.firstname;
-
-					if (name)		localStorage.setItem('name', name);
-					if (firstname)	localStorage.setItem('firstname', firstname);
-
-					// Router
-					Application.Router = new Router ();
-
-					Backbone.history.start();
+					this.begin();
 				});
 			},
 
-			// Override the user login & authentication
-			justStart: function() {
+			// Callbak function after user authentication
+			begin: function() {
 
 				$('body').addClass('loaded').removeClass('loading');
 

@@ -4,15 +4,12 @@ define(
 	{
 		
 		var BaseCollection = Backbone.Collection.extend({
-			
-			url : function()
-			{	
-				var url = (this.parenttype)?
-			
-					Application.Api + '/' + this.parenttype + "/" + this.parentmodel.id + "/" + this.collectiontype :
-					Application.Api + '/' + this.collectiontype;
-			
-				return this.parameters? url + "?" + $.param (this.parameters): url;
+
+			url: function() {
+
+				var endpoint = '/'+ this.endpoint;
+
+				return (this.parentModel? this.parentModel.url() + endpoint: endpoint);
 			},
 			
 			parse : function (response)

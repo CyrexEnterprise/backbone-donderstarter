@@ -53,6 +53,11 @@ gulp.task('copy:scripts', function() {
             dirs.source+'/js/**/*'
         ]).pipe(copy(dirs.release, {prefix: 1}));
 });
+// Copy dummy data
+gulp.task('copy:dummy', function() {
+    return gulp.src(dirs.source+'/js/Dummy/*')
+        .pipe(copy(dirs.release, {prefix: 1}));
+});
 
 
 // Lint Tasks
@@ -71,7 +76,7 @@ gulp.task('lint:after', ['minify'], function() {
 });
 // Mustache template concat
 gulp.task('mustache', function(){
-    gulp.src(dirs.source+'/templates/*')
+    gulp.src(dirs.source+'/templates/**/*')
         //.pipe(minifyHTML())
         .pipe(fc2json('templates.js'))
         .pipe(modify({
@@ -108,6 +113,7 @@ gulp.task('watch', function() {
     gulp.watch(dirs.source+'/js/**/*', ['copy:scripts', 'lint:before']);
     gulp.watch(dirs.source+'/css/**/*', ['sass']);
     gulp.watch(dirs.source+'/templates/**/*', ['mustache']);
+    gulp.watch(dirs.source+'/js/Dummy/*', ['copy:dummy']);
 });
 
 // Build and release tasks
@@ -115,6 +121,6 @@ gulp.task('release', function(callback){
     runSequence('build', ['concat', 'minify', 'lint:after'], callback);
 }); 
 gulp.task('build', function(callback){
-    runSequence('clean', ['copy:images', 'copy:html', 'copy:scripts', 'copy:extras', 'sass', 'lint:before', 'mustache'], callback);
+    runSequence('clean', ['copy:images', 'copy:dummy', 'copy:html', 'copy:scripts', 'copy:extras', 'sass', 'lint:before', 'mustache'], callback);
 }); 
 gulp.task('default', ['build', 'watch']);

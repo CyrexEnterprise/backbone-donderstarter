@@ -3,20 +3,20 @@ var pathname = window.location.pathname;
 /**
  * Require dependencies
  */
-require.config({baseUrl : 'js',});
+require.config(
+{
+	baseUrl: '/js/',
+	paths: 
+	{
+		jquery: '../vendor/jquery/dist/jquery.min'
+	},
+	
+});
 
 require(
-	['vendor/jquery/dist/jquery.min.js', 'config'],
-	function($, config)
+	['jquery', 'Utilities/Authorize'],
+	function($, auth)
 	{
-		config.hasToken();
+		auth.hasToken();
 	}
 );
-
-/**
- * Origin function
- */
-var origin = function ()
-{
-	return (window.location.origin)? window.location.origin : window.location.protocol + "//" + window.location.hostname;
-};

@@ -1,18 +1,15 @@
 // Include gulp & del
-var gulp = require('gulp'); 
+var gulp = require('gulp');
 var del = require('del');
 
 // Include Our Plugins
 var jshint = require('gulp-jshint');
 var sass = require('gulp-sass');
-var concat = require('gulp-concat');
-var uglify = require('gulp-uglify');
 var rename = require('gulp-rename');
 var copy = require('gulp-copy');
 var runSequence = require('run-sequence');
 var fc2json = require('gulp-file-contents-to-json');
 var modify = require('gulp-modify');
-var minifyHTML = require('gulp-minify-html');
 
 var dirs = {
     source: 'src',
@@ -32,10 +29,6 @@ gulp.task('copy:html', function() {
 });
 gulp.task('copy:images', function() {
     return gulp.src(dirs.source+'/images/*')
-        .pipe(copy(dirs.release, {prefix: 1}));
-});
-gulp.task('copy:extras', function() {
-    return gulp.src(dirs.source+'/extras/*')
         .pipe(copy(dirs.release, {prefix: 1}));
 });
 gulp.task('copy:scripts', function() {
@@ -58,8 +51,6 @@ gulp.task('copy:dummy', function() {
     return gulp.src(dirs.source+'/js/Dummy/*')
         .pipe(copy(dirs.release, {prefix: 1}));
 });
-
-
 // Lint Tasks
 gulp.task('lint:before', function() {
     return gulp.src(dirs.source+'/js/*.js')
@@ -86,20 +77,6 @@ gulp.task('mustache', function(){
         }))
         .pipe(gulp.dest(dirs.release+'/templates'));
 });
-
-// Concatenate & Minify JS
-gulp.task('concat', function() {
-    return gulp.src(dirs.source+'/js/*.js')
-        .pipe(concat('built.js'))
-        .pipe(gulp.dest(dirs.release+'/js'));
-});
-gulp.task('minify', function() {
-    return gulp.src(dirs.release+'/js/built.js')
-        .pipe(rename('built.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest(dirs.release+'/js'));
-});
-
 // Compile Sass
 gulp.task('sass', function() {
     return gulp.src(dirs.source+'/css/main.scss')
@@ -118,9 +95,9 @@ gulp.task('watch', function() {
 
 // Build and release tasks
 gulp.task('release', function(callback){
-    runSequence('build', ['concat', 'minify', 'lint:after'], callback);
-}); 
+    runSequence('clean', ['copy:images', 'copy:dummy', 'copy:html', 'copy:scripts', 'sass', 'mustache'], callback);
+});
 gulp.task('build', function(callback){
-    runSequence('clean', ['copy:images', 'copy:dummy', 'copy:html', 'copy:scripts', 'copy:extras', 'sass', 'lint:before', 'mustache'], callback);
-}); 
+    runSequence('clean', ['copy:images', 'copy:dummy', 'copy:html', 'copy:scripts', 'sass', 'lint:before', 'mustache'], callback);
+});
 gulp.task('default', ['build', 'watch']);

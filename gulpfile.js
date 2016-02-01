@@ -42,7 +42,7 @@ gulp.task('copy:scripts', function() {
             dirs.source+'/vendor/mustache.js/mustache.js',
             dirs.source+'/vendor/font-awesome/css/font-awesome.min.css',
             dirs.source+'/vendor/font-awesome/fonts/**',
-            dirs.source+'/vendor/backbone-mustache-auth/index.js',
+            dirs.source+'/vendor/backbone-auth/index.js',
             dirs.source+'/js/**/*'
         ]).pipe(copy(dirs.release, {prefix: 1}));
 });

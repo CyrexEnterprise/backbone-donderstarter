@@ -17,6 +17,6 @@
     "requirejs": "~2.1.20",
     "underscore": "~1.8.3",
     "font-awesome": "fontawesome#~4.4.0",
-    "backbone-mustache-auth": "git://github.com/Cloudoki/backbone-mustache-auth.git"
+    "backbone-auth": "https://github.com/Cloudoki/backbone-auth.git"
   }
 }

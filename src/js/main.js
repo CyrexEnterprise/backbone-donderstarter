@@ -18,7 +18,8 @@ require.config({
     requirejs: pathname+'vendor/requirejs/require',
     underscore: pathname+'vendor/underscore/underscore-min',
     mustache: pathname+'vendor/mustache.js/mustache',
-    bootstrap: pathname+'vendor/bootstrap/dist/js/bootstrap.min'
+    bootstrap: pathname+'vendor/bootstrap/dist/js/bootstrap.min',
+    backbone_auth: pathname+'vendor/backbone-auth/index'
 	},
 	
 	urlArgs: "bust=" +  (new Date()).getTime()

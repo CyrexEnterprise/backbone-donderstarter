@@ -9,7 +9,7 @@ define(
 			authentication: false,
 
 			init : function ()
-			{
+			{	console.log("Here")
 				// Load configs
 				Application.Api = config.apiurl;
 				Application.Session = Session;

@@ -17,6 +17,9 @@
 ## Install
 Install the dependencies with `npm install` or `sudo npm install`. Run `bower install` to install the vendor dependencies. If bower is not installed, run a `sudo npm install -g bower` first.
 
+## Configuration
+The auth configurations are located in the `src/js/config-example.js` file. Since configurations may vary from local setup to production setup, to enable these you must do a `cp src/js/config_example.js config.js` first. The generated file will be your configuration file, and should never be commited back to the repo.
+
 ## Adding packages
 The package is setup so you can easily add external packages to your project, while making it easier to manage dependencies. Doing
 `bower install <package-name>` will add the package to the src/vendor folder. You can browse for available bower packages through [bower search page](http://bower.io/search/), and general documentation on bower in [bower.io](http://bower.io/).

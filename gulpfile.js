@@ -57,14 +57,6 @@ gulp.task('lint:before', function() {
         .pipe(jshint())
         .pipe(jshint.reporter('default'));
 });
-gulp.task('lint:after', ['minify'], function() {
-    return gulp.src([
-            dirs.release+'/js/built.min.js',
-            dirs.release+'/js/built.js'
-        ])
-        .pipe(jshint())
-        .pipe(jshint.reporter('default'));
-});
 // Mustache template concat
 gulp.task('mustache', function(){
     gulp.src(dirs.source+'/templates/**/*')

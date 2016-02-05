@@ -28,7 +28,7 @@ require.config({
 var Application;
 
 require(
-  ['backbone', 'application', 'bootstrap'],
+  ['backbone', 'Application', 'bootstrap'],
   function(Backbone, application, Bootstrap)
   {
     $(document).ready(function()

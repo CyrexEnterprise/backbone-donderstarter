@@ -15,7 +15,7 @@
 - [npm](https://www.npmjs.com/)
 
 ## Install
-Install the dependencies with `npm install` or `sudo npm install`. Run `bower install` to install the vendor dependencies. If bower or gulp is not installed, run a `sudo npm install -g bower` or `sudo npm install -g gulp`first.
+Install the dependencies with `npm install` or `sudo npm install`.
 
 ## Configuration
 The auth configurations are located in the `src/js/config-example.js` file. Since configurations may vary from local setup to production setup, to enable these you must do a `cp src/js/config_example.js config.js` first. The generated file will be your configuration file, and should never be commited back to the repo.
@@ -27,10 +27,9 @@ The package is setup so you can easily add external packages to your project, wh
 After adding the package, you need to include it into the build process (gulpfile.js:41) and into your main.js file. Both have documented examples in the files themselves. 
 
 ## Gulp tasks
-- **gulp** will build the files inside the /dist folder and perform a watch. You are ready to start developing
-- **gulp clean** will clean the dist folder
-- **gulp build** will build the files inside the /dist folder without triggering a watch
-- **gulp release** will do the same build but with a js uglify in the end
+- **npm run gulp** will build the files inside the /dist folder and perform a watch. You are ready to start developing
+- **npm run clean** will clean the dist folder
+- **npm run build** will build the files inside the /dist folder without triggering a watch
 
 ## Notice
 There is no staging/dist setup yet

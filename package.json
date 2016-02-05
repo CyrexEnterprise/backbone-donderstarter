@@ -30,5 +30,12 @@
     "gulp-sass": "^2.0.4",
     "gulp-to-json": "^1.0.1",
     "run-sequence": "^1.1.2"
+  },
+  "scripts": {
+    "install": "bower install",
+    "gulp": "gulp",
+    "build": "gulp build",
+    "clean": "gulp clean",
+    "static": "http-server dist/"
   }
 }

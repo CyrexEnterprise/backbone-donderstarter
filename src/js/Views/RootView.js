@@ -26,9 +26,7 @@ define(
 
 			renderNav: function() {
 
-				//var user = Application.Session.User.attributes.user.firstname;
-
-				$('header').html(Mustache.render(Templates.topnav, {logged: true/*, user: user*/}));
+				$('header').html(Mustache.render(Templates.topnav, {}));
 			},
 
 			initRoles: function () {

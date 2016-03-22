@@ -1,0 +1,9 @@
+{
+	"jquery": "vendor/jquery/dist/jquery.min",
+	"backbone": "vendor/backbone/backbone-min",
+	"requirejs": "vendor/requirejs/require",
+	"underscore": "vendor/underscore/underscore-min",
+	"mustache": "vendor/mustache.js/mustache",
+	"bootstrap": "vendor/bootstrap/dist/js/bootstrap.min",
+	"backbone_auth": "vendor/backbone-auth/index"
+}

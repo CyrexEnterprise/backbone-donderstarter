@@ -17,6 +17,8 @@ var dirs = {
     release: 'dist'
 }
 
+var sources = require('./src/js/paths.json');
+
 // Clean
 gulp.task('clean', function (cb) {
     del([dirs.release], cb);
@@ -32,19 +34,16 @@ gulp.task('copy:images', function() {
         .pipe(copy(dirs.release, {prefix: 1}));
 });
 gulp.task('copy:scripts', function() {
-    return gulp.src([
-            dirs.source+'/vendor/jquery/dist/jquery.min.js',
-            dirs.source+'/vendor/backbone/backbone-min.js',
-            dirs.source+'/vendor/bootstrap/dist/css/bootstrap.min.css',
-            dirs.source+'/vendor/bootstrap/dist/js/bootstrap.min.js',
-            dirs.source+'/vendor/underscore/underscore-min.js',
-            dirs.source+'/vendor/requirejs/require.js',
-            dirs.source+'/vendor/mustache.js/mustache.js',
-            dirs.source+'/vendor/font-awesome/css/font-awesome.min.css',
-            dirs.source+'/vendor/font-awesome/fonts/**',
-            dirs.source+'/vendor/backbone-auth/index.js',
-            dirs.source+'/js/**/*'
-        ]).pipe(copy(dirs.release, {prefix: 1}));
+
+    var vendorSources = Object.keys(sources).map(function(k) {
+        return dirs.source+'/'+sources[k]+'.js'
+    });
+
+    var otherSources = [
+        dirs.source+'/js/**/*'
+    ];
+
+    return gulp.src(vendorSources.concat(otherSources)).pipe(copy(dirs.release, {prefix: 1}));
 });
 // Copy dummy data
 gulp.task('copy:dummy', function() {

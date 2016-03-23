@@ -16,7 +16,8 @@
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.0.4",
     "gulp-to-json": "^1.0.1",
-    "run-sequence": "^1.1.2"
+    "run-sequence": "^1.1.2",
+    "gulp-mustache": "^2.2.0"
   },
   "dependencies": {
     "bower": "^1.4.1",

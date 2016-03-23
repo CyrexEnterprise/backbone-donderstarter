@@ -1,54 +1,43 @@
-var xmlhttp = new XMLHttpRequest(),
-    paths = "js/paths.json",
-    pathname = window.location.pathname,
-    Application;
+var pathname = window.location.pathname;
 
-// Requirejs configuration
-function loadRequire(paths) {
+require.config({
 
-  require.config({
-
-    baseUrl : pathname+'js',
-    shim: {
+  baseUrl : pathname+'js',
+  shim: {
       bootstrap: {
-          deps: [
-            'jquery'
-          ],
-          exports: 'bootstrap'
-      }
-    },
-
-    paths: paths,
-    
-    urlArgs: "bust=" +  (new Date()).getTime()
-  });
-
-  require(
-    ['backbone', 'Application', 'bootstrap'],
-    function(Backbone, application, Bootstrap)
-    {
-      $(document).ready(function()
-      {     
-
-        Application = application;
-        Application.init();
-      });
+        deps: ['jquery'],
+        exports: 'bootstrap'
+      },
+    backgrid: {
+      deps: ['jquery','backbone','underscore'],
+      exports: 'Backgrid'
     }
-  );
-}
+  },
 
-// Load paths file for requirejs
-xmlhttp.onreadystatechange = function() {
-    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-        
-        var paths = JSON.parse(xmlhttp.responseText);
-        
-        Object.keys(paths).map(function(k) {
-          paths[k] = pathname+paths[k];
-        });
+  paths: {
+      "jquery": pathname+"vendor/jquery/dist/jquery.min",
+      "backbone": pathname+"vendor/backbone/backbone-min",
+      "requirejs": pathname+"vendor/requirejs/require",
+      "underscore": pathname+"vendor/underscore/underscore-min",
+      "mustache": pathname+"vendor/mustache.js/mustache",
+      "bootstrap": pathname+"vendor/bootstrap/dist/js/bootstrap.min",
+      "backbone_auth": pathname+"vendor/backbone-auth/index"
+  },
 
-        loadRequire(paths);
-    }
-};
-xmlhttp.open("GET", paths, true);
-xmlhttp.send();
+  urlArgs: "bust=" +  (new Date()).getTime()
+});
+
+var Application;
+
+require(
+  ['backbone', 'Application', 'bootstrap'],
+  function(Backbone, application, Bootstrap)
+  {
+    $(document).ready(function()
+    {     
+
+      Application = application;
+      Application.init();
+    });
+  }
+);

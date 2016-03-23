@@ -10,6 +10,21 @@ var copy = require('gulp-copy');
 var runSequence = require('run-sequence');
 var fc2json = require('gulp-file-contents-to-json');
 var modify = require('gulp-modify');
+var mustache = require('gulp-mustache');
+var fs = require('fs');
+
+// Read config file
+var config = {},
+    pathname = '';
+
+define = function(d){ config = d; }
+c = require('./src/js/config.js');
+eval(c);
+
+m = fs.readFileSync('./src/js/main.js', 'utf-8');
+m = m.substring(m.indexOf('require.config')+15, m.indexOf('});')+1);
+
+config.main = eval('(' + m + ')');
 
 var dirs = {
     source: 'src',
@@ -17,17 +32,17 @@ var dirs = {
     release: 'dist'
 }
 
-var sources = require('./src/js/paths.json');
-
 // Clean
 gulp.task('clean', function (cb) {
     del([dirs.release], cb);
 });
 
 // Copy files
-gulp.task('copy:html', function() {
-    return gulp.src(dirs.source+'/*.html')
-        .pipe(copy(dirs.release, {prefix: 1}));
+// Copy files
+gulp.task('copy:html', function () {
+    return gulp.src([dirs.source+'/*.html'])
+        .pipe(mustache(config))
+        .pipe(gulp.dest(dirs.release));
 });
 gulp.task('copy:images', function() {
     return gulp.src(dirs.source+'/images/*')
@@ -35,15 +50,15 @@ gulp.task('copy:images', function() {
 });
 gulp.task('copy:scripts', function() {
 
-    var vendorSources = Object.keys(sources).map(function(k) {
-        return dirs.source+'/'+sources[k]+'.js'
+    var vendorPaths = Object.keys(config.main.paths).map(function(k) {
+        return dirs.source+'/'+config.main.paths[k]+'.js'
     });
 
-    var otherSources = [
+    var otherPaths = [
         dirs.source+'/js/**/*'
     ];
 
-    return gulp.src(vendorSources.concat(otherSources)).pipe(copy(dirs.release, {prefix: 1}));
+    return gulp.src(vendorPaths.concat(otherPaths)).pipe(copy(dirs.release, {prefix: 1}));
 });
 // Copy dummy data
 gulp.task('copy:dummy', function() {

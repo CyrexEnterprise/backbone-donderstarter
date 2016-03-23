@@ -37,7 +37,7 @@ function loadRequire(paths) {
   );
 }
 
-// Load configuration files
+// Load paths file for requirejs
 xmlhttp.onreadystatechange = function() {
     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
         

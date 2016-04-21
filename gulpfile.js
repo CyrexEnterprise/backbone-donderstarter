@@ -48,6 +48,15 @@ gulp.task('copy:images', function() {
     return gulp.src(dirs.source+'/images/*')
         .pipe(copy(dirs.release, {prefix: 1}));
 });
+
+
+gulp.task('copy:css', function() {
+    return gulp.src([
+        dirs.source+'/vendor/bootstrap/dist/css/bootstrap.min.css'
+    ], { base: 'src' })
+    .pipe(gulp.dest(dirs.release));
+});
+
 gulp.task('copy:scripts', function() {
 
     var vendorPaths = Object.keys(config.main.paths).map(function(k) {
@@ -101,9 +110,9 @@ gulp.task('watch', function() {
 
 // Build and release tasks
 gulp.task('release', function(callback){
-    runSequence('clean', ['copy:images', 'copy:dummy', 'copy:html', 'copy:scripts', 'sass', 'mustache'], callback);
+    runSequence('clean', ['copy:images', 'copy:css', 'copy:dummy', 'copy:html', 'copy:scripts', 'sass', 'mustache'], callback);
 });
 gulp.task('build', function(callback){
-    runSequence('clean', ['copy:images', 'copy:dummy', 'copy:html', 'copy:scripts', 'sass', 'lint:before', 'mustache'], callback);
+    runSequence('clean', ['copy:images', 'copy:css', 'copy:dummy', 'copy:html', 'copy:scripts', 'sass', 'lint:before', 'mustache'], callback);
 });
 gulp.task('default', ['build', 'watch']);

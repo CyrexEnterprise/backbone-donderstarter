@@ -4,9 +4,10 @@ define(
 	function (Router, config, User, RootView, Session)
 	{
 		var Application = {
-			
+
 			version : 1,
-			authentication: false,
+			authentication: true,
+			userdata: true,
 
 			init : function ()
 			{
@@ -14,12 +15,16 @@ define(
 				Application.Api = config.apiurl;
 				Application.Session = Session;
 
-				if (this.authentication) {
+				if (this.authentication)
 					this.authenticate();
-					this.loadUserData();
-				}
 				else
-					this.begin();
+					this.isAuthenticated = true;
+
+				if (this.userdata && this.isAuthenticated)
+					this.loadUserData();
+
+				//else
+				//	this.begin();
 
 				return this;
 			},
@@ -29,13 +34,17 @@ define(
 
 				var token = window.localStorage.getItem('token');
 
-				//Check if there is authentication
-				if(token && token.length > 9)
-				{	
+				// Check if there is authentication
+				if(token && token.length)
+				{
 					Application.Session.authenticationtoken = token;
 					Backbone.accesstoken = token;
+					this.isAuthenticated = true;
 
-				} else{ console.log("token error", token); window.location = window.location.pathname+"login.html";}
+				} else{
+					console.log("token error", token);
+					this.isAuthenticated = false;
+					window.location = window.location.pathname+"login.html";}
 			},
 
 			// Get User data after authentication;
@@ -43,9 +52,8 @@ define(
 			loadUserData: function() {
 
 				this.Session.loadEssentialData (function ()	{
-					
 					this.begin();
-				});
+				}.bind(this));
 			},
 
 			// Callbak function after user authentication
@@ -54,11 +62,11 @@ define(
 				$('body').addClass('loaded').removeClass('loading');
 
 				// Root view
-				Application.RootView = new RootView();				
+				Application.RootView = new RootView();
 				Application.RootView.renderNav();
 
 				// Init roles
-				Application.RootView.initRoles();		
+				Application.RootView.initRoles();
 
 				// Router
 				Application.Router = new Router ();
@@ -67,14 +75,14 @@ define(
 			}
 		};
 
-		Backbone.ajax = function() {  
+		Backbone.ajax = function() {
 		    arguments[0].headers = {
-		        'Authorization': Application.Session.authenticationtoken,
+		        //'Authorization': Application.Session.authenticationtoken,
+		        'Authorization': 'Bearer '+ Application.Session.authenticationtoken
 		    };
 
-		    return Backbone.$.ajax.apply(Backbone.$, arguments);      
+		    return Backbone.$.ajax.apply(Backbone.$, arguments);
 		};
-
 		return Application;
 	}
 );

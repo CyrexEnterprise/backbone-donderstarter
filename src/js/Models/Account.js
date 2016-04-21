@@ -5,8 +5,8 @@ define(
 	{
 		var Account = BaseModel.extend({
 
-			urlRoot: '/accounts',
-			
+			modelType: 'accounts',
+
 			initialize: function(options) {
 
 			}

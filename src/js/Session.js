@@ -1,23 +1,22 @@
 
 define(
-	['Models/User'],
-	function (User)
+	['Models/Me'],
+	function (Me)
 	{
 		var Session = {
-			
+
 			version : 1,
 
 			loadEssentialData : function (callback)
-			{	
-				this.User = new User();
+			{
+				this.user = new Me();
 
-				this.User.once("activated", function () {	
+				this.user.once("activated", function () {
 					callback();
 				}.bind(this));
-				
-				this.User.fetch({error: this.authError.bind(this)});
-			},
 
+				this.user.fetch({error: this.authError.bind(this)});
+			},
 			// Error on API, for example
 			authError: function() {
 				this.logout();
@@ -26,11 +25,16 @@ define(
 			logout: function() {
 
 				this.authenticationtoken = null;
+				Backbone.accesstoken = null;
 				localStorage.removeItem('token');
 
 				var r = /[^\/]*$/;
 				var path = window.location.href.replace(r, '');
 				window.location = path;
+			},
+			getAccount: function() {
+
+				return this.user.account;
 			}
 		};
 

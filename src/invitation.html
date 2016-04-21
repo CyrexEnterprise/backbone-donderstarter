@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--[if IE 8]> <html lang="en" class="ie8 no-js"> <![endif]-->
+<!--[if IE 9]> <html lang="en" class="ie9 no-js"> <![endif]-->
+<!--[if !IE]><!--> <html lang="en" class="no-js"> <!--<![endif]-->
+<!-- BEGIN HEAD -->
+	<head>
+		<meta charset="UTF8">
+		<title>Backbone DonderStarter</title>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link href='vendor/bootstrap/dist/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+		<link rel="stylesheet" href="css/main.css">
+		<link href='https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700' rel='stylesheet' type='text/css'>
+	</head>
+
+	<body class="invitation page-header-fixed page-sidebar-fixed">
+		<header></header>
+		<section id="invitation">
+			<div class="content-area greyed">
+				<div class="invitation-container">
+					<iframe class="invitation"></iframe>
+				</div>
+			</div>
+		</section>
+		<footer></footer>
+
+		<!-- Application scripts -->
+		<script type="text/javascript" src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+		<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script type="text/javascript">
+			var config;
+			var define = function(cfg) { config = cfg; };
+		</script>
+		<script type="text/javascript" src="js/config.js"></script>
+		<script type="text/javascript">
+			var qs = (function(a) {
+					if (a == "") return {};
+					var b = {};
+					for (var i = 0; i < a.length; ++i)
+					{
+							var p=a[i].split('=', 2);
+							if (p.length == 1)
+									b[p[0]] = "";
+							else
+									b[p[0]] = decodeURIComponent(p[1].replace(/\+/g, " "));
+					}
+					return b;
+			})(window.location.search.substr(1).split('&'));
+
+			var token = qs['invitation_token']
+			/**
+			 * Origin function
+			 */
+			var origin = function () {
+				return (window.location.origin) ? window.location.origin : window.location.protocol + "//" + window.location.hostname;
+			}
+
+			if (token && token.length && token !== '') {
+				$("iframe").get(0).src = config.authurl + "invitation?response_type=token&client_id=" + config.appid + "&redirect_uri=" + origin() + "/auth.html&invitation_token=" + token;
+
+				window.addEventListener("message", function(event) {
+					if (event.origin !== origin()) return;
+					if (event.data && event.data.length) {
+						window.localStorage.setItem('token', event.data);
+						window.location = "/";
+					}
+				});
+			} else {
+				window.location = "/";
+			}
+		</script>
+	</body>
+</html>

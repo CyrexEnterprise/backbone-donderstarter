@@ -1,23 +1,28 @@
-
 define(
-	['Models/BaseModel'],
-	function (BaseModel)
+	['Models/BaseModel', 'Models/Account'],
+	function (BaseModel, Account)
 	{
 		var User = BaseModel.extend({
 
+			modelType: 'users',
+
 			initialize: function(options) {
-
-				this.once('change', this.activate);			
+				$.extend(this, options);
 			},
 
-			url: function() {
+			getCurrentAccount: function() {
 
-				return Application.Api + '/me';
+				var accountId = this.get('currentAccount'),
+					accounts = this.get('accounts');
+
+				return this.accounts.get(accountId);
 			},
 
-			activate: function() {
-				this.trigger('activated');
-			}
+			setCurrentAccount: function(id) {
+
+				this.set('currentAccount', id);
+				this.account = new Account(this.getCurrentAccount().attributes);
+			},
 		});
 
 		return User;

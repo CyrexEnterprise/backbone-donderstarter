@@ -34,7 +34,7 @@ require(
   function(Backbone, application, Bootstrap)
   {
     $(document).ready(function()
-    {     
+    {
 
       Application = application;
       Application.init();
